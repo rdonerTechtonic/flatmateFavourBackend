@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const Event = require('../models/Event');
 const router = express.Router();
-router.use(bodyParser.urlencoded({ extended: true }));
+router.use(bodyParser.json());
 
 
 router.get('/?', function (req, res) {

@@ -4,11 +4,11 @@ const nodemon = require('nodemon');
 const bodyParser = require('body-parser')
 const Household = require('../models/Household');
 const router = express.Router();
-router.use(bodyParser.urlencoded({ extended: true, limit: '5mb'}));
+router.use(bodyParser.json());
 
 
-// let houseObj =
-//   {"houseName": "The Davis's",
+// {
+//   "houseName": "The Davis's",
 //   "houseAddress": "123 Main",
 //   "houseOwner": "5bf5a3fa16018b9d0931b701",
 //   "houseCity": "Boulder",
@@ -16,18 +16,14 @@ router.use(bodyParser.urlencoded({ extended: true, limit: '5mb'}));
 //   "houseLongitude": "",
 //   "houseLatitude": "",
 // }
-
-
 router.post('/?', function (req, res) {
-  Household.create(req.body.house, (err, household) => {
+  Household.create(req.body, (err, household) => {
     if (err) return res.status(500).send("There was a problem registering the user.");
     res.status(200).json(household);
   })
 });
 
-
 router.get('/?', function (req, res) {
-
   Household.find({_id: req.query.houseId},
     (err, household) => {
       if (err) return res.status(500).send("There was a problem getting the information from the database.");
@@ -35,13 +31,9 @@ router.get('/?', function (req, res) {
     });
 });
 
-
 router.put('/?', function (req, res) {
-
-
-  Household.update({
-    _id: req.query.houseId},
-    {
+  Household.update({_id: req.query.houseId},
+  {
     houseName: req.body.houseName,
     houseAddress: req.body.houseAddress,
     houseOwner: req.body.houseOwner,
@@ -55,8 +47,5 @@ router.put('/?', function (req, res) {
       res.status(200).send(household);
     });
 });
-
-
-
 
 module.exports = router;
