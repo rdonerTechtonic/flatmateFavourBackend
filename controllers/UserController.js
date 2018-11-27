@@ -4,7 +4,7 @@ const nodemon = require('nodemon');
 const bodyParser = require('body-parser')
 const Roommate = require('../models/User');
 const router = express.Router();
-router.use(bodyParser.urlencoded({ extended: true, limit: '5mb'}));
+router.use(bodyParser.json());
 
 
 
