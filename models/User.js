@@ -1,13 +1,14 @@
-var mongoose = require('mongoose');
+const mongoose = require ('mongoose');
 
-//Mongoose Schema
-var UserSchema = new mongoose.Schema({
-  firstName: String,
-  lastName: String,
-  email: String,
-  password: String,
+var RoommateSchema = new mongoose.Schema({
+  userName: String,
+  userEmail: String,
+  userPassword: String,
+  houseId: {type: mongoose.Schema.Types.ObjectId, ref: 'Household'},
 });
 
-mongoose.model('User', UserSchema);
 
-module.exports = mongoose.model('User');
+
+mongoose.model('Roommate', RoommateSchema);
+
+module.exports = mongoose.model('Roommate');
