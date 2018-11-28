@@ -36,7 +36,19 @@ router.post('/', function (req, res) {
 
 
 router.get('/?', function (req, res) {
-  console.log(req.query);
+  let searchParams = { };
+  
+  if (req.query.houseId) {
+    searchParams = { houseId: req.query.houseId }
+  }
+  else if (req.query.roommateEmail) {
+    searchParams = { roommateEmail: req.query.roommateEmail }
+  }
+  else if (req.query._id) {
+    searchParams = { _id: req.query._id }
+  }
+
+
   Roommate.find(
     {houseId: req.query.houseId},
   // {houseID: mongoose.Types.ObjectId(req.query.houseId)},
