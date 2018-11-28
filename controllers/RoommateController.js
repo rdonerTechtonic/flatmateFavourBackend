@@ -2,9 +2,10 @@ const mongoose = require ('mongoose');
 const express = require('express');
 const nodemon = require('nodemon');
 const bodyParser = require('body-parser')
-const Roommate = require('../models/User');
+const Roommate = require('../models/Roommate');
 const router = express.Router();
 router.use(bodyParser.json());
+// router.use(bodyParser.urlencoded({ extended: true, limit: '5mb' }));
 
 
 
@@ -16,10 +17,18 @@ router.use(bodyParser.json());
 // }
 
 
+router.post('/', function (req, res) {
+
+  // const roommate = {};
+  // roommate.userName = req.body.firstName;
+  // roommate.userEmail = req.body.lastName;
+  // roommate.userPassword = req.body.password;
+  // roommate.houseId = '5bfdb47cdae3da050a76a1a0';
 
 
-router.post('/?', function (req, res) {
-  Roommate.create(req.body.roommate, (err, roommate) => {
+  console.log(req.body);
+  Roommate.create(req.body, (err, roommate) => {
+    console.log(err);
     if (err) return res.status(500).send("There was a problem registering the user.");
     res.status(200).json(roommate);
   })
