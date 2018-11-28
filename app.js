@@ -6,14 +6,14 @@ const port = process.env.PORT || 3005;
 
 const HouseholdController = require('./controllers/HouseholdController');
 const EventController = require('./controllers/EventController');
-const UserController = require('./controllers/UserController');
+const RoommateController = require('./controllers/RoommateController');
 
 
 app.use(cors());
 
 app.use('/event', EventController);
 app.use('/household', HouseholdController);
-app.use('/roommate', UserController);
+app.use('/roommate', RoommateController);
 
 app.listen(port, () => console.log(`Listening on port ${port}!`));
 

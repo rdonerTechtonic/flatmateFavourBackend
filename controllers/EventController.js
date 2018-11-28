@@ -6,8 +6,28 @@ const router = express.Router();
 router.use(bodyParser.json());
 
 
+// router.get('/:houseId', function (req, res) {
 router.get('/?', function (req, res) {
+<<<<<<< HEAD
   Event.find({houseId: req.query.houseId}, (err,events) => {
+=======
+  let searchParams = { };
+  
+  if (req.query.houseId) {
+    searchParams = { houseId: req.query.houseId }
+  }
+  else if (req.query.eventStartDate) {
+    searchParams = { eventStartDate: req.query.eventStartDate }
+  }
+  else if (req.query.eventOwner) {
+    searchParams = { eventOwner: req.query.eventOwner }
+  }
+  else if (req.query._id) {
+    searchParams = { _id: req.query._id }
+  }
+
+  Event.find(searchParams, (err,events) => {
+>>>>>>> deb65fd42630ac86ce97573622cd44b452ddcdd2
     if (err) return res.status(500).send('Events not found.')
     res.status(200).send(events)
   })
