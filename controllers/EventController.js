@@ -16,13 +16,11 @@ router.get('/?', function (req, res) {
 router.post('/?', function (req, res) {
   Event.create(req.body, (err, event) => {
     if (err) return res.status(500).send('Event not posted.')
-    console.log(event);
     res.status(200).send(event);
   })
 })
 
 router.put('/?', function (req, res) {
-  console.log(req.body);
   Event.update({_id: req.query.eventId},
     {
       eventTitle: req.body.eventTitle,
