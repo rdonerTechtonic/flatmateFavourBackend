@@ -6,25 +6,15 @@ const Household = require('../models/Household');
 const router = express.Router();
 router.use(bodyParser.json());
 
-
-// {
-//   "houseName": "The Davis's",
-//   "houseAddress": "123 Main",
-//   "houseOwner": "5bf5a3fa16018b9d0931b701",
-//   "houseCity": "Boulder",
-//   "houseState": "CO",
-//   "houseLongitude": "",
-//   "houseLatitude": "",
-// }
 router.post('/?', function (req, res) {
   Household.create(req.body, (err, household) => {
     if (err) return res.status(500).send("There was a problem registering the user.");
-    res.status(200).json(household);
+    res.status(200).send(household);
   })
 });
 
 router.get('/?', function (req, res) {
-  Household.find({_id: req.query.houseId},
+  Household.find({},
     (err, household) => {
       if (err) return res.status(500).send("There was a problem getting the information from the database.");
       res.status(200).send(household);

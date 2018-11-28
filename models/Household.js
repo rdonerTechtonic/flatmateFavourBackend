@@ -8,6 +8,7 @@ var HouseholdSchema = new mongoose.Schema({
   houseState: String,
   houseLongitude: Number,
   houseLatitude: Number,
+  houseInvitees: [{type: mongoose.Schema.Types.ObjectId, ref: 'User'}],
 });
 
 

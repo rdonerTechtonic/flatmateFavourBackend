@@ -7,6 +7,10 @@ const router = express.Router();
 router.use(bodyParser.json());
 // router.use(bodyParser.urlencoded({ extended: true, limit: '5mb' }));
 
+<<<<<<< HEAD:controllers/UserController.js
+router.post('/?', function (req, res) {
+  Roommate.create(req.body, (err, roommate) => {
+=======
 
 
 // let userObj = {
@@ -29,13 +33,16 @@ router.post('/', function (req, res) {
   console.log(req.body);
   Roommate.create(req.body, (err, roommate) => {
     console.log(err);
+>>>>>>> deb65fd42630ac86ce97573622cd44b452ddcdd2:controllers/RoommateController.js
     if (err) return res.status(500).send("There was a problem registering the user.");
     res.status(200).json(roommate);
   })
 });
 
-
 router.get('/?', function (req, res) {
+<<<<<<< HEAD:controllers/UserController.js
+  Roommate.find({houseId: req.query.houseId}, (err, roommate) => {
+=======
   let searchParams = { };
   
   if (req.query.houseId) {
@@ -53,6 +60,7 @@ router.get('/?', function (req, res) {
     {houseId: req.query.houseId},
   // {houseID: mongoose.Types.ObjectId(req.query.houseId)},
     (err, roommate) => {
+>>>>>>> deb65fd42630ac86ce97573622cd44b452ddcdd2:controllers/RoommateController.js
       if (err) return res.status(500).send("There was a problem getting the information from the database.");
       res.status(200).send(roommate);
     });
@@ -61,9 +69,10 @@ router.get('/?', function (req, res) {
 router.put('/?', function (req, res) {
   Roommate.update({_id: req.query.roommateId},
     {
-    userName: req.body.userName,
-    userEmail: req.body.userEmail,
-    userPassword: req.body.userPassword,
+    roommateName: req.body.roommateName,
+    roommateEmail: req.body.roommateEmail,
+    roommatePassword: req.body.roommatePassword,
+    houseId: req.body.houseId
   },(err, roommate) => {
       if (err) return res.status(500).send("There was a problem updating the house in the database.");
       res.status(200).send(roommate);

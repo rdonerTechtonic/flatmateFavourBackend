@@ -8,6 +8,9 @@ router.use(bodyParser.json());
 
 // router.get('/:houseId', function (req, res) {
 router.get('/?', function (req, res) {
+<<<<<<< HEAD
+  Event.find({houseId: req.query.houseId}, (err,events) => {
+=======
   let searchParams = { };
   
   if (req.query.houseId) {
@@ -24,28 +27,15 @@ router.get('/?', function (req, res) {
   }
 
   Event.find(searchParams, (err,events) => {
+>>>>>>> deb65fd42630ac86ce97573622cd44b452ddcdd2
     if (err) return res.status(500).send('Events not found.')
     res.status(200).send(events)
   })
 })
 
-// {
-// "eventTitle": "Mow the Lawn",
-// "eventOwner": "5bf5a3fa16018b9d0931b722",
-// "eventAssignees": ["5bf5a3fa16018b9d0931b721","5bf5a3fa16018b9d0931b723"],
-// "eventDescription": "It's not gonna mow itself",
-// "eventStartDate": "2018-01-01T00:00:00.000Z",
-// "eventEndDate": "2018-01-01T00:00:00.000Z",
-// "eventLocation": "Back Yard",
-// "eventStatus": "pending",
-// "houseId": "5bf5a3fa16018b9d0931b72b"
-// }
-
-//Above is the format of the object that is required by the function below.
 router.post('/?', function (req, res) {
-  Event.create(req.body.event, (err, event) => {
+  Event.create(req.body, (err, event) => {
     if (err) return res.status(500).send('Event not posted.')
-    console.log(event);
     res.status(200).send(event);
   })
 })
