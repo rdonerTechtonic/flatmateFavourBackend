@@ -24,7 +24,7 @@ router.get('/?', function (req, res) {
       if (err) return res.status(500).send('Events not found.');
       res.status(200).send(events);
     })
-    .populate('eventAssignees').exec((err, eventAssignees) => {
+    .populate('eventOwner eventAssignees').exec((err, eventAssignees) => {
       console.log('Populated eventAssignees ' + eventAssignees);
     });
   });
