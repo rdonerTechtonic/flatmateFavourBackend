@@ -8,7 +8,6 @@ router.use(bodyParser.json());
 
 // router.get('/:houseId', function (req, res) {
 router.get('/?', function (req, res) {
-  Event.find({ houseId: req.query.houseId }, (err, events) => {
     let searchParams = { };
 
     if (req.query.houseId) {
@@ -21,12 +20,11 @@ router.get('/?', function (req, res) {
       searchParams = { _id: req.query._id };
     }
 
-    // Event.find(searchParams, (err,events) => {
-    //   if (err) return res.status(500).send('Events not found.')
-    //   res.status(200).send(events)
-    // })
+    Event.find(searchParams, (err, events) => {
+      if (err) return res.status(500).send('Events not found.');
+      res.status(200).send(events);
+    });
   });
-});
 
 router.post('/?', function (req, res) {
   Event.create(req.body, (err, event) => {
@@ -36,7 +34,7 @@ router.post('/?', function (req, res) {
 });
 
 router.put('/?', function (req, res) {
-  Event.update({ _id: req.query.eventId }, {$set: req.body}, (err, event) => {
+  Event.update({ _id: req.query.eventId }, { $set: req.body }, (err, event) => {
     if (err) return res.status(500).send('Event not updated.');
     res.status(200).send(event);
   });
