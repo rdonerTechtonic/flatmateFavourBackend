@@ -22,17 +22,7 @@ router.get('/?', function (req, res) {
 });
 
 router.put('/?', function (req, res) {
-  Household.update({ _id: req.query.houseId },
-  {
-    houseName: req.body.houseName,
-    houseAddress: req.body.houseAddress,
-    houseOwner: req.body.houseOwner,
-    houseCity: req.body.houseCity,
-    houseState: req.body.houseState,
-    houseLongitude: req.body.houseLongitude,
-    houseLatitude: req.body.houseLatitude,
-  },
-    (err, household) => {
+  Household.update({ _id: req.query.houseId }, { $set: req.body }, (err, household) => {
       if (err) return res.status(500).send('There was a problem updating the house in the database.');
       res.status(200).send(household);
     });
