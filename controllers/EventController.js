@@ -36,17 +36,7 @@ router.post('/?', function (req, res) {
 });
 
 router.put('/?', function (req, res) {
-  Event.update({ _id: req.query.eventId },
-    {
-      eventTitle: req.body.eventTitle,
-      eventAssignees: req.body.eventAssignees,
-      eventDescription: req.body.eventDescription,
-      eventStartDate: req.body.eventStartDate,
-      eventEndDate: req.body.eventEndDate,
-      eventLocation: req.body.eventLocation,
-      eventStatus: req.body.eventStatus,
-    },
-    (err, event) => {
+  Event.update({ _id: req.query.eventId }, {$set: req.body}, (err, event) => {
     if (err) return res.status(500).send('Event not updated.');
     res.status(200).send(event);
   });
