@@ -10,14 +10,12 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const bcrypt = require('bcrypt');
+const mongoose = require('mongoose');
 const { createJWToken, verifyJWTToken } = require('../libs/Auth.js');
 const { verifyJWT_MW } = require('../middlewares.js');
 
-//probably not needed:
-// const jwt = require('jsonwebtoken');
-
 // This is your Library model,aka the schema definition for your library document.  This is a Mongoose model.  For more information, see https://mongoosejs.com/docs/models.html.
-const User = require('../models/User');
+const Roommate = require('../models/Roommate');
 
 // Use the express.Router class to create modular, mountable route handlers.  For more info, see https://expressjs.com/en/guide/routing.html.
 // A Router instance is a complete middleware and routing system.
@@ -30,9 +28,6 @@ const router = express.Router();
 // Controls the maximum request body size. If this is a number, then the value specifies the number of bytes; if it is a string, the value is passed to the bytes library for parsing. Defaults to '100kb'.
 router.use(bodyParser.json());
 
-
-// CREATES A NEW BOOK IN YOUR LIBRARY DB
-// This POST route for your library creates a new entry in your database.
 router.post('/register', function (req, res) {
     const user = {};
     // user.firstName = req.body.user.firstName;
@@ -41,13 +36,13 @@ router.post('/register', function (req, res) {
     // user.password = req.body.user.password;
     // user.password = bcrypt.hashSync(req.body.password, 8);
     // console.log(user);
-    User.create(
-      user, (err, user) => {
-      if (err) return res.status(500).send('There was a problem registering the user.');
+    Roommate.create(
+      user, (err, roommate) => {
+      if (err) return res.status(500).send('There was a problem registering the roommate.');
       console.log('user created');
-      console.log(user);
+      console.log(roommate);
       // res.status(200).send({ auth: true, token: createJWToken({ sessionData: user, maxAge: 3600 }) });
-      res.send({ user: req.body.user });
+      res.send({ roommate: req.body.roommate });
 
     });
 
@@ -69,20 +64,16 @@ router.get('/verify', function (req, res) {
 });
 
 router.post('/login', function (req, res) {
-  const password = req.body.password;
-  const email = req.body.email;
-
-  User.findOne({ email: email },
-    (err, user) => {
+  Roommate.findOne({ roommateEmail: req.body.roommateEmail },
+    (err, roommate) => {
+      console.log(roommate);
       if (err) return res.status(500).send('Error on the server.'); //hard error in backend session.
-      if (!user) return res.status(404).send('No user found.'); //no user
+      if (!roommate.houseId) return res.status(404).send(`No house found for ${roommate.roommateName}.`); //no user
+      if (req.body.roommatePassword === roommate.roommatePassword) {
 
-      if (bcrypt.compareSync(password, user.password)) {
-        console.log('user logged in');
-        // console.log(user);
-        // user.name = user.firstName + user.lastName;
-        // res.status(200).send({ auth: true, firstName: user.firstName, lastName: user.lastName, token: createJWToken({ sessionData: user, maxAge: 2 }) });
-        res.status(200).send({ auth: true, firstName: user.firstName, lastName: user.lastName, token: createJWToken({ sessionData: user, maxAge: 3600 }) });
+      // if (bcrypt.compareSync(req.body.roommatePassword, roommate.roommatePassword)) {
+        console.log('roommate logged in');
+        res.status(200).send({ auth: true, roommateName: roommate.roommateName, token: createJWToken({ sessionData: roommate, maxAge: 3600 }) });
       } else {
         res.status(200).send({ auth: false, token: null, message: 'Invalid password.' });
       }
