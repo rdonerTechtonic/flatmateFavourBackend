@@ -15,22 +15,6 @@ router.use(bodyParser.json());
 //   "houseId": "5bf5a3fa16018b9d0931b72a",
 // }
 
-router.post('/', function (req, res) {
-
-  // const roommate = {};
-  // roommate.roommateName = req.body.firstName;
-  // roommate.roommateEmail = req.body.lastName;
-  // roommate.roommatePassword = req.body.password;
-  // roommate.houseId = '5bfdb47cdae3da050a76a1a0';
-
-  console.log(req.body);
-  Roommate.create(req.body, (err, roommate) => {
-    console.log(err);
-    if (err) return res.status(500).send('There was a problem registering the roommate.');
-    res.status(200).json(roommate);
-  });
-});
-
 router.get('/?', function (req, res) {
   let searchParams = { };
 
