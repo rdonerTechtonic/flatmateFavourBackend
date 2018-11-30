@@ -68,21 +68,23 @@ router.get('/verify', function (req, res) {
   })
 });
 
+
+
 router.post('/login', function (req, res) {
-  const password = req.body.password;
-  const email = req.body.email;
+  const password = req.body.userPassword;
+  const email = req.body.userEmail;
 
-  User.findOne({ email: email },
-    (err, user) => {
+  Roommate.findOne({ userEmail: req.body.userEmail },
+    (err, roommate) => {
       if (err) return res.status(500).send('Error on the server.'); //hard error in backend session.
-      if (!user) return res.status(404).send('No user found.'); //no user
+      if (!roommate) return res.status(404).send('No user found.'); //no user
 
-      if (bcrypt.compareSync(password, user.password)) {
+      if (bcrypt.compareSync(userPassword, roommate.userPassword)) {
         console.log('user logged in');
         // console.log(user);
         // user.name = user.firstName + user.lastName;
         // res.status(200).send({ auth: true, firstName: user.firstName, lastName: user.lastName, token: createJWToken({ sessionData: user, maxAge: 2 }) });
-        res.status(200).send({ auth: true, firstName: user.firstName, lastName: user.lastName, token: createJWToken({ sessionData: user, maxAge: 3600 }) });
+        res.status(200).send({ auth: true, houseId: roommate.houseId, email: roommate.userEmail, userName : roommate.userName, token: createJWToken({ sessionData: roommate, maxAge: 3600 }) });
       } else {
         res.status(200).send({ auth: false, token: null, message: 'Invalid password.' });
       }
