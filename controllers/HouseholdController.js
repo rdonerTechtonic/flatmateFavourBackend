@@ -29,10 +29,17 @@ router.put('/?', function (req, res) {
 });
 
 router.delete('/:id', function (req, res) {
-  Event.findByIdAndRemove(req.params.id, (err, household) => {
+  Household.findByIdAndRemove(req.params.id, (err, household) => {
       if (err) return res.status(500).send('There was a problem deleting this event from the database.');
       res.status(200).send(household);
     });
+});
+
+router.get('/lookupInvite/:email', function (req, res) {
+  Household.find({ houseInvitees: email }, (err, household) => {
+    if (err) return res.status(500).send('No household found with that user as an invitee.');
+    res.status(200).send(household);
+  });
 });
 
 module.exports = router;

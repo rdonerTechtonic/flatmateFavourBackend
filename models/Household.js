@@ -8,7 +8,8 @@ var HouseholdSchema = new mongoose.Schema({
   houseState: String,
   houseLongitude: Number,
   houseLatitude: Number,
-  houseInvitees: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Roommate' }],
+  houseInvitees: [String],
+  // houseInvitees: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Roommate' }],
 });
 
 mongoose.model('Household', HouseholdSchema);
