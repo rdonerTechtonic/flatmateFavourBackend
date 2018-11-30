@@ -9,7 +9,6 @@ var HouseholdSchema = new mongoose.Schema({
   houseLongitude: Number,
   houseLatitude: Number,
   houseInvitees: [String],
-  // houseInvitees: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Roommate' }],
 });
 
 mongoose.model('Household', HouseholdSchema);

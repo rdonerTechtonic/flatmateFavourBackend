@@ -8,25 +8,25 @@ router.use(bodyParser.json());
 // router.use(bodyParser.urlencoded({ extended: true, limit: '5mb' }));
 
 
-// let userObj = {
-//   "userName": "Daffy Duck",
-//   "userEmail": "daffy@gmail.com",
-//   "userPassword": "password123",
+// let roommateObj = {
+//   "roommateName": "Daffy Duck",
+//   "roommateEmail": "daffy@gmail.com",
+//   "roommatePassword": "password123",
 //   "houseId": "5bf5a3fa16018b9d0931b72a",
 // }
 
 router.post('/', function (req, res) {
 
   // const roommate = {};
-  // roommate.userName = req.body.firstName;
-  // roommate.userEmail = req.body.lastName;
-  // roommate.userPassword = req.body.password;
+  // roommate.roommateName = req.body.firstName;
+  // roommate.roommateEmail = req.body.lastName;
+  // roommate.roommatePassword = req.body.password;
   // roommate.houseId = '5bfdb47cdae3da050a76a1a0';
 
   console.log(req.body);
   Roommate.create(req.body, (err, roommate) => {
     console.log(err);
-    if (err) return res.status(500).send('There was a problem registering the user.');
+    if (err) return res.status(500).send('There was a problem registering the roommate.');
     res.status(200).json(roommate);
   });
 });
