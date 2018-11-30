@@ -17,8 +17,8 @@ export function verifyJWT_MW(req, res, next) {
     .then((decodedToken) => {
       //req.user gets passed to the next route after *
       //req.user._doc._id;
-      req.user = decodedToken.data;
-      console.log(req.user);
+      req.roommate = decodedToken.data;
+      console.log(req.roommate);
       next();
     })
     .catch((err) => {

@@ -8,7 +8,7 @@ router.use(bodyParser.json());
 
 router.post('/?', function (req, res) {
   Household.create(req.body, (err, household) => {
-    if (err) return res.status(500).send('There was a problem registering the user.');
+    if (err) return res.status(500).send('There was a problem registering the roommate.');
     res.status(200).send(household);
   });
 });

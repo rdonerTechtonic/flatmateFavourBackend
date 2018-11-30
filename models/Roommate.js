@@ -1,9 +1,9 @@
 const mongoose = require ('mongoose');
 
 var RoommateSchema = new mongoose.Schema({
-  userName: String,
-  userEmail: String,
-  userPassword: String,
+  roommateName: String,
+  roommateEmail: String,
+  roommatePassword: String,
   houseId: {type: mongoose.Schema.Types.ObjectId, ref: 'Household'},
 });
 
