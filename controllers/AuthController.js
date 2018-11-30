@@ -56,7 +56,7 @@ router.get('/verify', function (req, res) {
     // console.log(jwt.decode(token));
     // const decoded = jwt.decode(token, {complete: true});
     // const user = decodedToken.data._doc;
-    res.status(200).send({ auth: true, token: decodedToken, name: `${decodedToken.data._doc.firstName} ${decodedToken.data._doc.lastName}`, message: 'User already logged in' });
+    res.status(200).send({ auth: true, token: decodedToken, roommateName: decodedToken.data._doc.roommateName, message: 'User already logged in' });
     })
     .catch(() => {
     res.status(404).send({ auth: false, token: null, message: 'Invalid auth token provided. Unable to verify' });
