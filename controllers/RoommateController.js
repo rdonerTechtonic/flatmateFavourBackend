@@ -43,6 +43,8 @@ router.get('/?', function (req, res) {
   }
 
   Roommate.find(
+    { houseId: req.query.houseId },
+  // {houseID: mongoose.Types.ObjectId(req.query.houseId)},
     (err, roommate) => {
       if (err) return res.status(500).send('There was a problem getting the information from the database.');
       res.status(200).send(roommate);
@@ -50,14 +52,19 @@ router.get('/?', function (req, res) {
 });
 
 router.put('/?', function (req, res) {
-  Roommate.update({ _id: req.query.roommateId }, { $set: req.body }, (err, roommate) => {
+  Roommate.update({ _id: req.query.roommateId },
+    {
+    userName: req.body.userName,
+    userEmail: req.body.userEmail,
+    userPassword: req.body.userPassword,
+  }, (err, roommate) => {
       if (err) return res.status(500).send('There was a problem updating the house in the database.');
       res.status(200).send(roommate);
     });
 });
 
 router.delete('/:id', function (req, res) {
-  Event.findByIdAndRemove(req.params.id, (err, roommate) => {
+  Roommate.findByIdAndRemove(req.params.id, (err, roommate) => {
       if (err) return res.status(500).send('There was a problem deleting this event from the database.');
       res.status(200).send(roommate);
     });
