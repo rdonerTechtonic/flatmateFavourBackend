@@ -56,7 +56,7 @@ router.post('/login', function (req, res) {
     (err, roommate) => {
       if (err) return res.status(500).send('Error on the server.'); //hard error in backend session.
 
-      if (!roommate.houseId) return res.status(404).send(`No house found for ${roommate.roommateName}.`); //no user
+      if (!roommate.houseId) return res.status(404).send({ houseId: null, message: `No house found for ${roommate.roommateName}.`}); //no user
 
       if (bcrypt.compareSync(req.body.roommatePassword, roommate.roommatePassword)) {
         console.log('roommate logged in');
