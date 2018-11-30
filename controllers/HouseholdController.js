@@ -14,7 +14,7 @@ router.post('/?', function (req, res) {
 });
 
 router.get('/?', function (req, res) {
-  Household.find({},
+  Household.find({ _id: req.query.houseId },
     (err, household) => {
       if (err) return res.status(500).send('There was a problem getting the information from the database.');
       res.status(200).send(household);
@@ -27,6 +27,8 @@ router.put('/?', function (req, res) {
       res.status(200).send(household);
     });
 });
+
+// { new:true },
 
 router.delete('/:id', function (req, res) {
   Event.findByIdAndRemove(req.params.id, (err, household) => {
