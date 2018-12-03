@@ -56,7 +56,7 @@ router.post('/login', function (req, res) {
     (err, roommate) => {
 
       if (err) return res.status(500).send('Error on the server.'); //hard error in backend session.
-      
+
       if (!roommate) return res.status(404).send('No roommate found.');
 
       if (bcrypt.compareSync(req.body.roommatePassword, roommate.roommatePassword)) {
@@ -66,7 +66,7 @@ router.post('/login', function (req, res) {
 
         } else {
           console.log('roommate logged in');
-          res.status(200).send({ auth: true, roommateName: roommate.roommateName, houseId: roommate.houseId, token: createJWToken({ sessionData: roommate, maxAge: 3600 }) })
+          res.status(200).send({ auth: true, roommateName: roommate.roommateName, _id: roommate._id, houseId: roommate.houseId, token: createJWToken({ sessionData: roommate, maxAge: 3600 }) })
         }
 
       } else {
