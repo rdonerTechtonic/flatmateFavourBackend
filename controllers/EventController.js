@@ -9,7 +9,6 @@ router.use(bodyParser.json());
 // router.get('/:houseId', function (req, res) {
 router.get('/?', function (req, res) {
     let searchParams = { };
-
     if (req.query.houseId) {
       searchParams = { houseId: req.query.houseId };
     } else if (req.query.eventStartDate) {
@@ -19,13 +18,11 @@ router.get('/?', function (req, res) {
     } else if (req.query._id) {
       searchParams = { _id: req.query._id };
     }
-
     Event.find(searchParams, (err, events) => {
       if (err) return res.status(500).send('Events not found.');
       res.status(200).send(events);
     })
     .populate('eventOwner eventAssignees').exec((err, eventAssignees) => {
-      console.log('Populated eventAssignees ' + eventAssignees);
     });
   });
 
