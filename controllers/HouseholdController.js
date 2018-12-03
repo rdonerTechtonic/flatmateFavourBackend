@@ -38,7 +38,7 @@ router.delete('/:id', function (req, res) {
 });
 
 router.post('/lookupInvite/', function (req, res) {
-  Household.find({ houseInvitees: req.body.email }, (err, household) => {
+  Household.find({ houseInvitees: req.body.roommateEmail }, (err, household) => {
     if (err) return res.status(500).send('No household found with that user as an invitee.');
     res.status(200).send(household);
   });
