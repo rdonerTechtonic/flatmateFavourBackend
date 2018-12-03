@@ -60,7 +60,7 @@ router.post('/login', function (req, res) {
 
       if (bcrypt.compareSync(req.body.roommatePassword, roommate.roommatePassword)) {
         console.log('roommate logged in');
-        res.status(200).send({ auth: true, roommateName: roommate.roommateName, token: createJWToken({ sessionData: roommate, maxAge: 3600 }) });
+        res.status(200).send({ auth: true, roommateName: roommate.roommateName, houseId: roommate.houseId, token: createJWToken({ sessionData: roommate, maxAge: 3600 }) });
       } else {
         res.status(200).send({ auth: false, token: null, message: 'Invalid password.' });
       }
