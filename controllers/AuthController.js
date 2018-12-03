@@ -29,34 +29,22 @@ const router = express.Router();
 router.use(bodyParser.json());
 
 router.post('/register', function (req, res) {
-    const user = {};
-    // user.firstName = req.body.user.firstName;
-    // user.lastName = req.body.user.lastName;
-    // // user.email = req.body.email;
-    // user.password = req.body.user.password;
-    // user.password = bcrypt.hashSync(req.body.password, 8);
-    // console.log(user);
-    Roommate.create(
-      user, (err, roommate) => {
-      if (err) return res.status(500).send('There was a problem registering the roommate.');
-      console.log('user created');
-      console.log(roommate);
-      // res.status(200).send({ auth: true, token: createJWToken({ sessionData: user, maxAge: 3600 }) });
-      res.send({ roommate: req.body.roommate });
+  const roommate = {};
+  roommate.roommateName = req.body.roommateName;
+  roommate.roommateEmail = req.body.roommateEmail;
+  roommate.roommatePassword = bcrypt.hashSync(req.body.roommatePassword, 8);
+  roommate.houseId = req.body.houseId;
 
-    });
-
+  Roommate.create(roommate, (err, roommate) => {
+    if (err) return res.status(500).send('There was a problem registering the roommate.');
+    res.status(200).json(roommate);
+  });
 });
 
 router.get('/verify', function (req, res) {
   const token = req.headers['x-access-token'];
   verifyJWTToken(token).then((decodedToken) => {
-    // console.log(token.data);
-    // console.log(token.data.$__._doc.firstName);
-    // console.log(jwt.decode(token));
-    // const decoded = jwt.decode(token, {complete: true});
-    // const user = decodedToken.data._doc;
-    res.status(200).send({ auth: true, token: decodedToken, name: `${decodedToken.data._doc.firstName} ${decodedToken.data._doc.lastName}`, message: 'User already logged in' });
+    res.status(200).send({ auth: true, token: decodedToken, roommateName: decodedToken.data._doc.roommateName, message: 'User already logged in' });
     })
     .catch(() => {
     res.status(404).send({ auth: false, token: null, message: 'Invalid auth token provided. Unable to verify' });
@@ -66,14 +54,21 @@ router.get('/verify', function (req, res) {
 router.post('/login', function (req, res) {
   Roommate.findOne({ roommateEmail: req.body.roommateEmail },
     (err, roommate) => {
-      console.log(roommate);
-      if (err) return res.status(500).send('Error on the server.'); //hard error in backend session.
-      if (!roommate.houseId) return res.status(404).send(`No house found for ${roommate.roommateName}.`); //no user
-      if (req.body.roommatePassword === roommate.roommatePassword) {
 
-      // if (bcrypt.compareSync(req.body.roommatePassword, roommate.roommatePassword)) {
-        console.log('roommate logged in');
-        res.status(200).send({ auth: true, roommateName: roommate.roommateName, token: createJWToken({ sessionData: roommate, maxAge: 3600 }) });
+      if (err) return res.status(500).send('Error on the server.'); //hard error in backend session.
+      
+      if (!roommate) return res.status(404).send('No roommate found.');
+
+      if (bcrypt.compareSync(req.body.roommatePassword, roommate.roommatePassword)) {
+
+        if (!roommate.houseId) {
+          return res.send({auth: true, token: null, houseId: false, message: `No house found for ${roommate.roommateName}.`})
+
+        } else {
+          console.log('roommate logged in');
+          res.status(200).send({ auth: true, roommateName: roommate.roommateName, houseId: roommate.houseId, token: createJWToken({ sessionData: roommate, maxAge: 3600 }) })
+        }
+
       } else {
         res.status(200).send({ auth: false, token: null, message: 'Invalid password.' });
       }
