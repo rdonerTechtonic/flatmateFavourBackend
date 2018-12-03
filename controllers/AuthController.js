@@ -54,13 +54,21 @@ router.get('/verify', function (req, res) {
 router.post('/login', function (req, res) {
   Roommate.findOne({ roommateEmail: req.body.roommateEmail },
     (err, roommate) => {
-      if (err) return res.status(500).send('Error on the server.'); //hard error in backend session.
 
-      if (!roommate.houseId) return res.status(404).send({ houseId: null, message: `No house found for ${roommate.roommateName}.`}); //no user
+      if (err) return res.status(500).send('Error on the server.'); //hard error in backend session.
+      
+      if (!roommate) return res.status(404).send('No roommate found.');
 
       if (bcrypt.compareSync(req.body.roommatePassword, roommate.roommatePassword)) {
-        console.log('roommate logged in');
-        res.status(200).send({ auth: true, roommateName: roommate.roommateName, houseId: roommate.houseId, token: createJWToken({ sessionData: roommate, maxAge: 3600 }) });
+
+        if (!roommate.houseId) {
+          return res.send({auth: true, token: null, houseId: false, message: `No house found for ${roommate.roommateName}.`})
+
+        } else {
+          console.log('roommate logged in');
+          res.status(200).send({ auth: true, roommateName: roommate.roommateName, houseId: roommate.houseId, token: createJWToken({ sessionData: roommate, maxAge: 3600 }) })
+        }
+
       } else {
         res.status(200).send({ auth: false, token: null, message: 'Invalid password.' });
       }
