@@ -4,6 +4,9 @@ const bodyParser = require('body-parser');
 const Event = require('../models/Event');
 const router = express.Router();
 router.use(bodyParser.json());
+const { verifyJWT_MW } = require('../middlewares');
+
+router.all('*', verifyJWT_MW);
 
 
 // router.get('/:houseId', function (req, res) {

@@ -5,6 +5,9 @@ const bodyParser = require('body-parser');
 const Household = require('../models/Household');
 const router = express.Router();
 router.use(bodyParser.json());
+const { verifyJWT_MW } = require('../middlewares');
+
+router.all('*', verifyJWT_MW);
 
 router.post('/?', function (req, res) {
   Household.create(req.body, (err, household) => {

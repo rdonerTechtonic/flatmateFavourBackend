@@ -44,7 +44,7 @@ router.post('/register', function (req, res) {
 router.get('/verify', function (req, res) {
   const token = req.headers['x-access-token'];
   verifyJWTToken(token).then((decodedToken) => {
-    res.status(200).send({ auth: true, token: decodedToken, roommateName: decodedToken.data._doc.roommateName, message: 'User already logged in' });
+    res.status(200).send({ auth: true, token: decodedToken, houseId: decodedToken.data._doc.houseId, _id: decodedToken.data._doc._id, roommateName: decodedToken.data._doc.roommateName, message: 'User already logged in' });
     })
     .catch(() => {
     res.status(404).send({ auth: false, token: null, message: 'Invalid auth token provided. Unable to verify' });

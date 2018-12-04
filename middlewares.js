@@ -2,13 +2,14 @@ import { verifyJWTToken } from './libs/Auth';
 
 export function verifyJWT_MW(req, res, next) {
   // (req.method === 'POST'); we could check method
-  console.log(req.method);
+  console.log(req.url);
 
-  // if (req.method === 'POST') {
-  //   // console.log(req.method);
-  //   next();
-  //   return;
-  // }
+  if (req.method === 'POST') {
+    // console.log(req.method);
+    // if(req.url === ('http://localhost:3005/auth/register' || 'http://localhost:3005/auth/login')){
+    next();
+    return;
+  }
 
   let token = req.headers['x-access-token'];
   // console.log(token);
