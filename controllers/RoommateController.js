@@ -5,19 +5,9 @@ const bodyParser = require('body-parser');
 const Roommate = require('../models/Roommate');
 const router = express.Router();
 router.use(bodyParser.json());
-// router.use(bodyParser.urlencoded({ extended: true, limit: '5mb' }));
-
-
-// let roommateObj = {
-//   "roommateName": "Daffy Duck",
-//   "roommateEmail": "daffy@gmail.com",
-//   "roommatePassword": "password123",
-//   "houseId": "5bf5a3fa16018b9d0931b72a",
-// }
 
 router.get('/?', function (req, res) {
   let searchParams = { };
-
   if (req.query.houseId) {
     searchParams = { houseId: req.query.houseId };
   } else if (req.query.roommateEmail) {
@@ -25,23 +15,14 @@ router.get('/?', function (req, res) {
   } else if (req.query._id) {
     searchParams = { _id: req.query._id };
   }
-
-  Roommate.find(
-    { houseId: req.query.houseId },
-  // {houseID: mongoose.Types.ObjectId(req.query.houseId)},
-    (err, roommate) => {
+  Roommate.find(searchParams ,(err, roommate) => {
       if (err) return res.status(500).send('There was a problem getting the information from the database.');
       res.status(200).send(roommate);
     });
 });
 
 router.put('/?', function (req, res) {
-  Roommate.update({ _id: req.query.roommateId },
-    {
-    userName: req.body.userName,
-    userEmail: req.body.userEmail,
-    userPassword: req.body.userPassword,
-  }, (err, roommate) => {
+  Roommate.update({ _id: req.query.roommateId }, { $set: req.body }, (err, roommate) => {
       if (err) return res.status(500).send('There was a problem updating the house in the database.');
       res.status(200).send(roommate);
     });
