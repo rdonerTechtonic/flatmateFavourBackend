@@ -38,12 +38,17 @@ router.delete('/:id', function (req, res) {
 });
 
 router.post('/lookupInvite/', function (req, res) {
-  console.log(req.body.roommateEmail);
+  // console.log(req.body.roommateEmail);
   Household.find({ houseInvitees: req.body.roommateEmail }, (err, household) => {
+    // console.log(household);
     if (err) {
-      return res.status(500).send({ houseId: false, message: 'No household found with that user as an invitee.' })
+      return res.status(500).send({ houseId: false, message: 'Error on the server.' })
     }
+    if(household.length === 0) {
+      res.status(404).send({ houseId: false, message: 'No household found with that user as an invitee.' })
+    } else {
       res.status(200).send({ houseId: true, household: household });
+    }
     })
   });
 
