@@ -5,6 +5,9 @@ const bodyParser = require('body-parser');
 const Roommate = require('../models/Roommate');
 const router = express.Router();
 router.use(bodyParser.json());
+const { verifyJWT_MW } = require('../middlewares');
+
+router.all('*', verifyJWT_MW);
 
 router.get('/?', function (req, res) {
   let searchParams = { };
